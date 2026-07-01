@@ -1,13 +1,13 @@
 cask "ccdeck" do
-  version "0.1.0"
-  sha256 :no_check # replace with a real sha256 after the first release (see below)
+  version "0.1.1"
+  sha256 "2d7446e6a317fcff14d08e4709294fcf1718db35ca6bc400fb22165671bf0890"
 
   url "https://github.com/wzulfikar/ccdeck/releases/download/v#{version}/ccdeck-v#{version}.dmg"
   name "ccdeck"
   desc "macOS menu bar app that juggles multiple Claude subscriptions for Claude Code"
   homepage "https://github.com/wzulfikar/ccdeck"
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "ccdeck.app"
 
