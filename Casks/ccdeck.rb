@@ -23,7 +23,6 @@ cask "ccdeck" do
 
   caveats <<~EOS
     ccdeck stores per-account Claude credentials in your login Keychain under the
-    service "ccdeck". Uninstalling the app does not remove those Keychain items;
-    delete them manually in Keychain Access if you want them gone.
+    service "ccdeck". Uninstalling the app does not remove those Keychain items. Delete them manually in Keychain Access if you want them gone.
   EOS
 end
