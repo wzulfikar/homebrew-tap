@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Update Casks/ccdeck.rb to a released version: download the release DMG,
+# compute its sha256, and rewrite the version + sha256 in the cask.
+#
+# Usage:
+#   ./bin/bump-cask v0.1.0
+#   ./bin/bump-cask 0.1.0     # leading v optional
+#
+# Assumes the release ccdeck-v<version>.dmg exists at
+#   github.com/wzulfikar/ccdeck/releases/download/v<version>/
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+REPO="wzulfikar/ccdeck"
+RAW="${1:?usage: bump-cask <version>, e.g. bump-cask v0.1.0}"
+VERSION="${RAW#v}"                       # strip leading v -> 0.1.0
+URL="https://github.com/$REPO/releases/download/v$VERSION/ccdeck-v$VERSION.dmg"
+CASK="Casks/ccdeck.rb"
+
+echo "==> fetching $URL"
+TMP="$(mktemp -t ccdeck-dmg)"
+trap 'rm -f "$TMP"' EXIT
+curl -fSL "$URL" -o "$TMP"
+
+SHA="$(shasum -a 256 "$TMP" | awk '{print $1}')"
+echo "==> sha256 $SHA"
+
+# Rewrite version and sha256 (handles both :no_check and a prior real hash).
+/usr/bin/sed -i '' \
+  -e "s/^  version .*/  version \"$VERSION\"/" \
+  -e "s/^  sha256 .*/  sha256 \"$SHA\"/" \
+  "$CASK"
+
+echo "==> updated $CASK to $VERSION"
+grep -E '^  (version|sha256) ' "$CASK"
+
+echo ""
+echo "Next:"
+echo "  brew audit --cask $CASK"
+echo "  git commit -am \"ccdeck $VERSION\" && git push"
