@@ -1,6 +1,6 @@
 cask "ccdeck" do
-  version "0.1.12"
-  sha256 "2fc7b830eaec851dcd97507de63f6b26768873ff8179cc31552af3d6b5f54520"
+  version "0.1.13"
+  sha256 "7f34a9af7fbfeae20f2c0adc062f7f8a21fa9d05b88c5f7e9fd0728d69e2616a"
 
   url "https://github.com/wzulfikar/ccdeck/releases/download/v#{version}/ccdeck.dmg"
   name "ccdeck"
